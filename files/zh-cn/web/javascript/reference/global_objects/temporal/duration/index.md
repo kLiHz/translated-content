@@ -60,9 +60,9 @@ const startingPoint = Temporal.PlainDate.from("2021-01-01"); // ISO 8601 日历
 startingPoint.add(dur1).add(dur2).since(startingPoint); // "P396D"
 ```
 
-其余操作，即 `round()`, `total()` 和 `compare()`，需通过 `relativeTo` 选项提供必要的日历（历法）和参考时间。该选项可以是一个 {{jsxref("Temporal.PlainDate")}}, {{jsxref("Temporal.PlainDateTime")}}, {{jsxref("Temporal.ZonedDateTime")}}，或一个可被 {{jsxref("Temporal/ZonedDateTime/from", "Temporal.ZonedDateTime.from()")}} （需提供 `timeZone` 选项或字符串中包含时区标注）或 {{jsxref("Temporal/PlainDate/from", "Temporal.PlainDate.from()")}} 转换的对象或字符串。
+其余操作，即 `round()`, `total()` 和 `compare()`，需通过 `relativeTo` 选项提供必要的日历信息和参考时间信息。该选项可以是一个 {{jsxref("Temporal.PlainDate")}}, {{jsxref("Temporal.PlainDateTime")}}, {{jsxref("Temporal.ZonedDateTime")}}，或一个可被 {{jsxref("Temporal/ZonedDateTime/from", "Temporal.ZonedDateTime.from()")}} （需提供 `timeZone` 选项或字符串中包含时区标注）或 {{jsxref("Temporal/PlainDate/from", "Temporal.PlainDate.from()")}} 转换的对象或字符串。
 
-需注意，严格来说，从“日”到“时”的转换也是具有歧义的，因为一日的长度可能会因起始点的改变（如夏令时/日光节约时间）而不同。可提供带时区的 `relativeTo` 以说明这样的改变；否则将假定一日为 24 小时。
+需注意，严格来说，从“日（`days`）”到“时（`hours`）”的转换也是具有歧义的，因为一日的长度可能会因起始点的改变（如夏令时/日光节约时间）而不同。可提供带时区的 `relativeTo` 以说明这样的改变；否则将假定一日为 24 小时。
 
 ### 时间段的平衡
 
@@ -72,7 +72,7 @@ startingPoint.add(dur1).add(dur2).since(startingPoint); // "P396D"
 
 {{jsxref("Temporal/Duration/round", "round()")}} 方法总会将时间段平衡为“头重”型，归入直至 `largestUnit` 选项。通过手动指定一个足够大的 `largestUnit` 选项，可以将时间段充分平衡。类似地，{{jsxref("Temporal/Duration/add", "add()")}} 和 {{jsxref("Temporal/Duration/subtract", "subtract()")}} 方法会将远算结果平衡至输入时间段中最大的单位。
 
-需要注意，由于 ISO 8601 时间段格式将小于秒级的部分表示在单一小数中，因此使用默认格式的序列化无法保留不平衡的小于秒的部分。例如，“1000 毫秒”会被序列化为 `"PT1S"`，随后则会被反序列化为“1 秒”。如需保留小于秒的部分的尺度，则需手动将其作为 JSON 对象序列化（因为 {{jsxref("Temporal/Duration/toJSON", "toJSON()")}} 方法默认会将时间段以 ISO 8601 格式序列化）。
+需要注意，由于 ISO 8601 时间段格式将小于秒级的部分表示在单一小数中，因此使用默认格式的序列化无法保留不平衡的小于秒的部分。例如，“1000 毫秒”会被序列化为 `"PT1S"`，随后则会被反序列化为“1 秒”。如需保留小于秒的部分的幅度，则需手动将其作为 JSON 对象序列化（因为 {{jsxref("Temporal/Duration/toJSON", "toJSON()")}} 方法默认会将时间段以 ISO 8601 格式序列化）。
 
 ### 时间段的正负性
 
@@ -126,9 +126,9 @@ startingPoint.add(dur1).add(dur2).since(startingPoint); // "P396D"
 ## 实例方法
 
 - {{jsxref("Temporal/Duration/abs", "Temporal.Duration.prototype.abs()")}}
-  - : 返回一个新的 `Temporal.Duration` 对象，为该时间段的绝对值（所有字段的尺度保持不变，但正负性变为正）。
+  - : 返回一个新的 `Temporal.Duration` 对象，为该时间段的绝对值（所有字段的幅度保持不变，但正负性变为正）。
 - {{jsxref("Temporal/Duration/add", "Temporal.Duration.prototype.add()")}}
-  - : 返回一个新的 `Temporal.Duration` 对象，为该时间段和给定时间段（以能被 {{jsxref("Temporal/Duration/from", "Temporal.Duration.from()")}} 转换的形式）的和。结果是[平衡的](#时间段的平衡)。
+  - : 返回一个新的 `Temporal.Duration` 对象，为该时间段与给定时间段（以能被 {{jsxref("Temporal/Duration/from", "Temporal.Duration.from()")}} 转换的形式）的和。结果是[平衡的](#时间段的平衡)。
 - {{jsxref("Temporal/Duration/negated", "Temporal.Duration.prototype.negated()")}}
   - : 返回一个新的 `Temporal.Duration` 对象，其值与该时间段相反（所有字段的尺度保持不变，但正负性发生反转）。
 - {{jsxref("Temporal/Duration/round", "Temporal.Duration.prototype.round()")}}
